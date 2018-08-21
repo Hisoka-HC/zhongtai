@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhongtai.dao.UsersMapper">
+    <resultMap id="UsersResultMap" type="Users">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="sex" property="sex"/>
+        <result column="phone" property="phone"/>
+        <association property="group" column="group_id" resultMap="GroupResultMap"/>
+        <association property="department" column="department_id" resultMap="DepartmentResultMap"/>
+        <association property="role" column="role_id" resultMap="RoleResultMap"/>
+    </resultMap>
+
+    <resultMap id="GroupResultMap" type="Groups">
+        <id column="group_id" property="id"/>
+        <result column="group_name" property="name"/>
+    </resultMap>
+
+    <resultMap id="DepartmentResultMap" type="Department">
+        <id property="id" column="department_id"/>
+        <result property="name" column="department_name"/>
+    </resultMap>
+
+    <resultMap id="RoleResultMap" type="Role">
+        <id property="id" column="role_id"/>
+        <result property="name" column="role_name"/>
+    </resultMap>
+
+
+    <select id="selectUsers" resultMap="UsersResultMap">
+        SELECT * FROM v_user AS vu
+        <if test="id!=null">
+            WHERE vu.id = #{id}
+        </if>
+        <if test="search!=null">
+            WHERE vu.`id` LIKE '%${search}%'
+            OR vu.`username` LIKE '%${search}%'
+            OR vu.`name` LIKE '%${search}%'
+            OR vu.`sex` LIKE '%${search}%'
+            OR vu.`phone` LIKE '%${search}%'
+            OR vu.`group_name` LIKE '%${search}%'
+            OR vu.`department_name` LIKE '%${search}%'
+            OR vu.`role_name` LIKE '%${search}%'
+        </if>
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <select id="selectUsersId" resultMap="UsersResultMap">
+        SELECT * FROM v_user AS vu
+            WHERE vu.id = #{id}
+        <if test="search!=null">
+            AND 1=2
+            OR vu.`id` LIKE '%${search}%' AND vu.id = #{id}
+            OR vu.`username` LIKE '%${search}%' AND vu.id = #{id}
+            OR vu.`name` LIKE '%${search}%' AND vu.id = #{id}
+            OR vu.`sex` LIKE '%${search}%' AND vu.id = #{id}
+            OR vu.`phone` LIKE '%${search}%' AND vu.id = #{id}
+            OR vu.`group_name` LIKE '%${search}%' AND vu.id = #{id}
+            OR vu.`department_name` LIKE '%${search}%' AND vu.id = #{id}
+            OR vu.`role_name` LIKE '%${search}%' AND vu.id = #{id}
+        </if>
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <select id="selectUsersGroupId" resultMap="UsersResultMap">
+        SELECT * FROM v_user AS vu
+        WHERE vu.group_id = #{groupId}
+        <if test="search!=null">
+            AND 1=2
+            OR vu.`id` LIKE '%${search}%' AND vu.group_id = #{groupId}
+            OR vu.`username` LIKE '%${search}%' AND vu.group_id = #{groupId}
+            OR vu.`name` LIKE '%${search}%' AND vu.group_id = #{groupId}
+            OR vu.`sex` LIKE '%${search}%' AND vu.group_id = #{groupId}
+            OR vu.`phone` LIKE '%${search}%' AND vu.group_id = #{groupId}
+            OR vu.`group_name` LIKE '%${search}%' AND vu.group_id = #{groupId}
+            OR vu.`department_name` LIKE '%${search}%' AND vu.group_id = #{groupId}
+            OR vu.`role_name` LIKE '%${search}%' AND vu.group_id = #{groupId}
+        </if>
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <select id="selectUsersDepartmentId" resultMap="UsersResultMap">
+        SELECT * FROM v_user AS vu
+        WHERE vu.department_id = #{departmentId}
+        <if test="search!=null">
+            AND 1=2
+            OR vu.`id` LIKE '%${search}%' AND vu.department_id = #{departmentId}
+            OR vu.`username` LIKE '%${search}%' AND vu.department_id = #{departmentId}
+            OR vu.`name` LIKE '%${search}%' AND vu.department_id = #{departmentId}
+            OR vu.`sex` LIKE '%${search}%' AND vu.department_id = #{departmentId}
+            OR vu.`phone` LIKE '%${search}%' AND vu.department_id = #{departmentId}
+            OR vu.`group_name` LIKE '%${search}%' AND vu.department_id = #{departmentId}
+            OR vu.`department_name` LIKE '%${search}%' AND vu.department_id = #{departmentId}
+            OR vu.`role_name` LIKE '%${search}%' AND vu.department_id = #{departmentId}
+        </if>
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <select id="login" resultType="Users">
+        SELECT * FROM users
+        WHERE username=#{username}
+        AND password = #{password};
+    </select>
+
+    <select id="count" resultType="String">
+         SELECT COUNT(*) FROM users;
+    </select>
+
+    <update id="updateUsers" parameterType="Users">
+        UPDATE users
+        SET id = #{id}
+        <if test="name!=null">
+            ,username= #{username}
+        </if>
+        <if test="password!=null">
+            ,password = #{password}
+        </if>
+        <if test="name!=null">
+            ,name = #{name}
+        </if>
+        <if test="sex!=null">
+            ,sex = #{sex}
+        </if>
+        <if test="phone!=null">
+            ,phone = #{phone}
+        </if>
+        <if test="groupId!=null">
+            ,group_id = #{groupId}
+        </if>
+        <if test="departmentId!=null">
+            ,department_id = #{departmentId}
+        </if>
+        <if test="roleId!=null">
+            ,role_id = #{roleId}
+        </if>
+        WHERE id =#{id};
+    </update>
+
+    <insert id="insertUsers" parameterType="Users">
+        INSERT INTO users(username,password,name,sex,phone,group_id,department_id,role_id)
+        VALUES(#{username},#{password},#{name},#{sex},#{phone},#{groupId},#{departmentId},#{roleId});
+    </insert>
+
+    <delete id="deleteUsers">
+        DELETE FROM users
+        WHERE id = #{id};
+    </delete>
+
+</mapper>

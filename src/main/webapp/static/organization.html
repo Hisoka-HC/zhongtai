@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>机构</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+  <meta content="Coderthemes" name="author" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+  <!-- App css -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+
+  <script src="assets/js/modernizr.min.js"></script>
+
+</head>
+
+<body>
+
+  <!-- Navigation Bar-->  
+  <include src="header.html"></include>
+  <!-- End Navigation Bar-->
+
+
+  <div class="wrapper">
+    <div class="container-fluid">
+
+      <!-- Page-Title -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="page-title-box">
+            <div class="btn-group pull-right">
+              <ol class="breadcrumb hide-phone p-0 m-0">
+                <li class="breadcrumb-item">
+                  <a href="index.html">首页</a>
+                </li>
+                <li class="breadcrumb-item active">
+                  <a href="#">机构</a>
+                </li>
+              </ol>
+            </div>
+            <h4 class="page-title">机构列表</h4>
+          </div>
+        </div>
+      </div>
+      <!-- end page title end breadcrumb -->
+
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card-box">
+            <div class='row flex col-lg-12' style='margin-bottom: 20px;'>
+              <form class='form-inline' action="">
+                <!-- <label for="" class='col-12 col-form-label'>
+                  <input type="text" id='search_text' class='form-control search' placeholder="查询">
+                  <a href="javascript:;" class='btn btn-custom waves-light waves-effect demand'>查询</a>
+                </label> -->
+              </form>
+              <a href="saveOrganization.html" id='add' class='btn btn-custom waves-light waves-effect'>添加机构</a>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>机构id</th>
+                  <th>机构名称</th>
+                  <th>比例</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class='proposer'>
+                <script id='proposer' type='text/html'>
+                  {{each list as item}}
+                  <tr>
+                    <th scope="row">{{item.id}}</th>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ratio}}</td>
+                    <td>
+                      {{if role != 6}}
+                      <a href="saveOrganization.html?id={{item.id}}" id='amend' class='btn btn-info waves-light waves-effect'>修改</a>
+                      <a href="javascript:;" id='delete' class='btn btn-danger waves-light waves-effect' onclick='del({{item.id}})'>删除</a>
+                      {{/if}}
+                    </td>
+                  </tr>
+                  {{/each}}
+                </script>
+              </tbody>
+            </table>
+            <nav class='page'>
+              <script id='page' type='text/html'>
+                <ul class="pagination pagination-split">
+                  {{each list as i}}
+                    <li class="page-item"><a class="page-link turn" href="#" data-offset='{{i.offset}}' data-limit='{{i.limit}}'>{{i.page}}</a></li>
+                  {{/each}}
+                </ul>
+              </script>
+          </nav>
+          </div>
+        </div>
+      </div>
+      <!--- end row -->
+    </div>
+    <!-- end container -->
+  </div>
+  <!-- end wrapper -->
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          2018 © Highdmin. - Coderthemes.com
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+  <!-- jQuery  -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/waves.js"></script>
+  <script src="assets/js/jquery.slimscroll.js"></script>
+
+  <!-- App js -->
+  <script src="assets/js/jquery.core.js"></script>
+  <script src="assets/js/jquery.app.js"></script>
+  <script src="js/common_js.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    var data = {
+    };
+    var role = role(), htmlData = {};
+    htmlData.role = role;
+    //获取列表
+    get('organization/select.do', data, function (res) {
+      var res = JSON.parse(res)
+      if(res.total > 10)
+        res.row.length = 10;
+      htmlData.list = res.row;
+      var html = template('proposer', htmlData);
+      $('.proposer').html(html);
+      var data = page(res.total - 0);
+      var pageData = template('page', data);
+      $('.page').html(pageData);
+    });
+    //删除
+    function del(id) {
+      if (!id) {
+        return
+      };
+      post('organization/delete.do', { id: id }, function (res) {
+        if (res == 'success') {
+          layer.msg('操作成功');
+          setTimeout(function () { location.reload() }, 1000);
+        } else {
+          layer.msg('系统出错，请重试');
+        }
+      })
+    };
+    $(document).on('click', '.turn', function(e){
+      var e = e || event;
+      var offset = e.target.dataset.offset,
+          limit = e.target.dataset.limit;
+      get('organization/select.do', {offset: offset, limit: limit}, function (res) {
+        htmlData.list = JSON.parse(res).row;
+        var html = template('proposer', htmlData);
+        $('.proposer').html(html);
+      });
+    })
+  </script>
+</body>
+
+</html>

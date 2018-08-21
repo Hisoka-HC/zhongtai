@@ -1,0 +1,148 @@
+<!-- Navigation Bar-->
+<header id="topnav">
+  <div class="topbar-main">
+    <div class="container-fluid">
+
+      <!-- Logo container-->
+      <div class="logo">
+        <!-- Text Logo -->
+        <!-- <a href="index.html" class="logo">
+                    <span class="logo-small"><i class="mdi mdi-radar"></i></span>
+                    <span class="logo-large"><i class="mdi mdi-radar"></i> Highdmin</span>
+                    </a> -->
+        <!-- Image Logo -->
+        <a href="index.html" class="logo">
+          <img src="assets/images/logo_sm.png" alt="" height="26" class="logo-small">
+          <img src="assets/images/logo.png" alt="" height="22" class="logo-large">
+        </a>
+
+      </div>
+      <!-- End Logo container-->
+
+
+      <div class="menu-extras topbar-custom">
+
+        <ul class="list-unstyled topbar-right-menu float-right mb-0">
+          <li class="menu-item">
+            <!-- Mobile menu toggle-->
+            <a class="navbar-toggle nav-link">
+              <div class="lines">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </a>
+            <!-- End mobile menu toggle-->
+          </li>
+          <li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
+              aria-expanded="false">
+              <img src="assets/images/users/avatar-1.jpg" alt="user" class="rounded-circle">
+              <span class="ml-1 pro-user-name" id='userName'>
+                <i class="mdi mdi-chevron-down"></i>
+              </span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+              <!-- item-->
+              <div class="dropdown-item noti-title">
+                <h6 class="text-overflow m-0">Welcome !</h6>
+              </div>
+              <!-- item-->
+              <a href="savaPasswrod.html" class="dropdown-item notify-item">
+                <i class="fi-head"></i>
+                <span>修改密码</span>
+              </a>
+              <!-- item-->
+              <a href="javascript:void(0);" class="dropdown-item notify-item logout">
+                <i class="fi-power"></i>
+                <span>退出登录</span>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- end menu-extras -->
+
+      <div class="clearfix"></div>
+
+    </div>
+    <!-- end container -->
+  </div>
+  <!-- end topbar-main -->
+
+  <div class="navbar-custom">
+    <div class="container-fluid">
+      <div id="navigation">
+        <ul class="navigation-menu" id='role_form'>
+          <!--<li class="has-submenu">
+            <a href="index.html">
+              <i class="icon-speedometer"></i>首页</a>
+          </li> -->
+          <script id='role' type='text/html'>
+            {{if role == 1 || role == 5 || role == 6}}
+            <li class="has-submenu">
+              <a href="staff.html">
+                <i class="icon-layers"></i>员工信息</a>
+            </li>
+            <li class="has-submenu">
+              <a href="proposer.html">
+                <i class="icon-user-following"></i>意向客户</a>
+            </li>
+            <li class="has-submenu">
+              <a href="approved.html">
+                <i class="icon-fire"></i>公司客户</a>
+            </li>
+            <li class="has-submenu">
+              <a href="process.html">
+                <i class="icon-docs"></i>申请进度</a>
+            </li>
+            <li class="has-submenu">
+              <a href="organization.html">
+                <i class="icon-present"></i>机构</a>
+            </li>
+            {{/if}}
+            {{if role == 1}}
+            <li class="has-submenu">
+              <a href="department.html">
+                <i class="icon-people"></i>部门</a>
+            </li>
+            {{/if}}
+            {{if role == 2 || role == 3 || role == 4}}
+            <li class="has-submenu">
+              <a href="individualClient.html">
+                <i class="icon-docs"></i>{{if role == 2}}部门客户{{else if role == 3}}小组客户{{else}}我的客户{{/if}}</a>
+            </li>
+            <li class="has-submenu">
+              <a href="groupStaff.html">
+                <i class="icon-layers"></i>{{if role == 2}}部门员工{{else if role == 3}}小组员工{{else}}我的信息{{/if}}</a>
+            </li>
+            {{/if}}
+          </script>
+        </ul>
+        <!-- End navigation menu -->
+      </div>
+      <!-- end #navigation -->
+    </div>
+    <!-- end container -->
+  </div>
+  <!-- end navbar-custom -->
+</header>
+<!-- End Navigation Bar-->
+<script>
+  $('.logout').click(function(){
+    post('logout.do', {}, function(res){
+      if(res == 'success'){
+        layer.msg('已经退出登录');
+        setTimeout(function(){
+          location.reload();
+        },1000)
+      }
+    })
+  });
+  var htmlData = {
+    role: getuser().roleId
+  };
+  $('#userName').text(getuser().name);
+  var html = template('role', htmlData);
+  $('#role_form').html(html);
+</script>

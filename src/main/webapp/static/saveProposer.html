@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>编辑申请人</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+  <meta content="Coderthemes" name="author" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+  <!-- App css -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+
+  <script src="assets/js/modernizr.min.js"></script>
+
+</head>
+
+<body>
+
+  <!-- Navigation Bar-->
+  <include src="header.html"></include>
+  <!-- End Navigation Bar-->
+
+
+  <div class="wrapper">
+    <div class="container-fluid">
+
+      <!-- Page-Title -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="page-title-box">
+            <div class="btn-group pull-right">
+              <ol class="breadcrumb hide-phone p-0 m-0">
+                <li class="breadcrumb-item">
+                  <a href="#">首页</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="proposer.html">申请人</a>
+                </li>
+                <li class="breadcrumb-item active">编辑申请人</li>
+              </ol>
+            </div>
+            <h4 class="page-title">编辑申请人</h4>
+          </div>
+        </div>
+      </div>
+      <!-- end page title end breadcrumb -->
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card-box">
+            <h4 class="m-t-0 header-title">编辑申请人信息</h4>
+            <p class="text-muted m-b-30 font-14"></p>
+            <div class="row">
+              <div class="col-12">
+                <div class="p-20">
+                  <form class="form-horizontal" role="form">
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">申请人姓名</label>
+                      <div class="col-10">
+                        <input type="text" id='name' class="form-control" value="" placeholder='请输入申请人姓名...'>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">申请人手机</label>
+                      <div class="col-10">
+                        <input type="number" id='phone' class="form-control" value="" placeholder='请输入申请人手机...'>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">申请金额</label>
+                      <div class="col-10">
+                        <input type="number" id='money' class="form-control" value="" placeholder='请输入申请金额...'>
+                      </div>
+                    </div>
+                    <div class='form-group row'>
+                      <label class="col-2 col-form-label"></label>
+                      <a href="javascript:;" class='btn btn-info waves-light waves-effect save' onclick="save()">保存</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- end card-box -->
+        </div>
+        <!-- end col -->
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </div>
+  <!-- end wrapper -->
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          2018 © Highdmin. - Coderthemes.com
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+
+  <!-- jQuery  -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/waves.js"></script>
+  <script src="assets/js/jquery.slimscroll.js"></script>
+
+  <!-- App js -->
+  <script src="assets/js/jquery.core.js"></script>
+  <script src="assets/js/jquery.app.js"></script>
+  <script src="js/common_js.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    var id = getUrlParam('id');
+    var url = 'apply/insert.do';
+    var data = {};
+    if (id) {
+      url = 'apply/update.do';
+      get('apply/select.do', {id: id},function(res){
+        if(res){
+          var res = JSON.parse(res).row[0];
+          data.name = res.name;
+          data.phone = res.phone;
+          data.money = res.money;
+          $('#name').val(res.name);
+          $('#phone').val(res.phone);
+          $('#money').val(res.money);
+        }else{
+          layer.msg('系统错误，请刷新重试');
+        }
+      })
+    } else {
+      id = '';
+    };
+    data.id = id;
+    function save() {
+      var name = $('#name').val(),
+          phone = $('#phone').val(),
+          money = $("#money").val();
+      data.name = delHtmlTag(name);
+      data.phone = delHtmlTag(phone);
+      data.money = delHtmlTag(money);
+      if (name) {
+        if (phone) {
+          if (money) {
+            post(url, data, function (res) {
+              if (res == 'success') {
+                layer.msg('保存成功，马上跳转');
+                setTimeout(function () {
+                  window.location.href = 'proposer.html'
+                }, 1000);
+              }
+            })
+          }
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

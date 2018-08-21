@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhongtai.dao.CustomersMapper">
+
+    <resultMap id="CustomersResultMap" type="Customers">
+        <id column="id" property="id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="number" column="number"/>
+        <result property="applyMoney" column="apply_money"/>
+        <result property="borrowMoney" column="borrow_money"/>
+        <result property="submitDatetime" column="submit_datetime"/>
+        <association property="organization" column="organize_id" resultMap="OrganizationResultMap"/>
+        <association property="process" column="process_id" resultMap="ProcessResultMap"/>
+        <association property="users" column="user_id" resultMap="UsersResultMap"/>
+        <association property="groups" column="group_id" resultMap="GroupResultMap"/>
+        <association property="department" column="department_id" resultMap="DepartmentResultMap"/>
+    </resultMap>
+
+    <resultMap id="OrganizationResultMap" type="Organization">
+        <id column="organize_id" property="id"/>
+        <result property="name" column="organization_name"/>
+        <result property="ratio" column="ratio"/>
+    </resultMap>
+
+    <resultMap id="ProcessResultMap" type="Process">
+        <id property="id" column="process_id"/>
+        <result property="message" column="message"/>
+    </resultMap>
+
+    <resultMap id="UsersResultMap" type="Users">
+        <id property="id" column="user_id"/>
+        <result property="name" column="user_name"/>
+    </resultMap>
+
+    <resultMap id="GroupResultMap" type="Groups">
+        <id property="id" column="group_id"/>
+        <result property="name" column="group_name"/>
+    </resultMap>
+
+    <resultMap id="DepartmentResultMap" type="Department">
+        <id property="id" column="department_id"/>
+        <result property="name" column="department_name"/>
+    </resultMap>
+
+    <resultMap id="WhereIdResultMap" type="Process">
+        <id property="id" column="id"/>
+        <result property="phone" column="phone"/>
+        <result property="message" column="message"/>
+    </resultMap>
+
+    <select id="selectCustomers" resultMap="CustomersResultMap">
+        SELECT * FROM v_customers AS vc
+        <if test="search!=null">
+            <if test="startTime==null">
+            WHERE vc.`name` LIKE '%${search}%'
+            OR vc.`number` LIKE '%${search}%'
+            OR vc.`phone` LIKE '%${search}%'
+            OR vc.`message` LIKE '%${search}%'
+            OR vc.`user_name` LIKE '%${search}%'
+            OR vc.`organization_name` LIKE '%${search}%'
+            OR vc.`apply_money` LIKE '%${search}%'
+            OR vc.`borrow_money` LIKE '%${search}%'
+            OR vc.`id` LIKE '%${search}%'
+            </if>
+        </if>
+        <if test="search==null">
+            <if test="startTime!=null">
+            WHERE  vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            </if>
+        </if>
+        <if test="search!=null">
+            <if test="endTime!=null">
+            WHERE vc.`name` LIKE '%${search}%' AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            OR vc.`number` LIKE '%${search}%' AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            OR vc.`phone` LIKE '%${search}%' AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            OR vc.`message` LIKE '%${search}%' AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            OR vc.`user_name` LIKE '%${search}%' AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            OR vc.`organization_name` LIKE '%${search}%' AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            OR vc.`apply_money` LIKE '%${search}%' AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            OR vc.`borrow_money` LIKE '%${search}%' AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            OR vc.`id` LIKE '%${search}%' AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            </if>
+        </if>
+        <if test="id!=null">
+            WHERE vc.id = #{id}
+        </if>
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <select id="selectCustomerUserId" resultMap="CustomersResultMap">
+        SELECT * FROM v_customer AS vc
+        <if test="search==null">
+            <if test="startTime==null">
+                WHERE vc.`user_id` = #{userId}
+            </if>
+        </if>
+        <if test="search!=null">
+            <if test="startTime==null">
+                WHERE vc.`name` LIKE '%${search}%' AND vc.`user_id` = #{userId}
+                OR vc.`number` LIKE '%${search}%' AND vc.`user_id` = #{userId}
+                OR vc.`phone` LIKE '%${search}%' AND vc.`user_id` = #{userId}
+                OR vc.`message` LIKE '%${search}%' AND vc.`user_id` = #{userId}
+                OR vc.`user_name` LIKE '%${search}%' AND vc.`user_id` = #{userId}
+                OR vc.`organization_name` LIKE '%${search}%' AND vc.`user_id` = #{userId}
+                OR vc.`apply_money` LIKE '%${search}%' AND vc.`user_id` = #{userId}
+                OR vc.`borrow_money` LIKE '%${search}%' AND vc.`user_id` = #{userId}
+                OR vc.`id` LIKE '%${search}%' AND vc.`user_id` = #{userId}
+            </if>
+        </if>
+        <if test="search==null">
+            <if test="startTime!=null">
+                WHERE  vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}  AND vc.`user_id` = #{userId}
+            </if>
+        </if>
+        <if test="search!=null">
+            <if test="endTime!=null">
+                WHERE vc.`name` LIKE '%${search}%'  AND vc.`user_id` = #{userId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`number` LIKE '%${search}%'  AND vc.`user_id` = #{userId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`phone` LIKE '%${search}%'  AND vc.`user_id` = #{userId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`message` LIKE '%${search}%'  AND vc.`user_id` = #{userId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`user_name` LIKE '%${search}%'  AND vc.`user_id` = #{userId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`organization_name` LIKE '%${search}%' AND vc.`user_id` = #{userId}  AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`apply_money` LIKE '%${search}%'  AND vc.`user_id` = #{userId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`borrow_money` LIKE '%${search}%' AND vc.`user_id` = #{userId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`id` LIKE '%${search}%' AND vc.`user_id` = #{userId}  AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            </if>
+        </if>
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <select id="selectCustomerGroupId" resultMap="CustomersResultMap">
+        SELECT * FROM v_customer AS vc
+        <if test="search==null">
+            <if test="startTime==null">
+                WHERE vc.`group_id` = #{groupId}
+            </if>
+        </if>
+        <if test="search!=null">
+            <if test="startTime==null">
+                WHERE vc.`name` LIKE '%${search}%' AND vc.`group_id` = #{groupId}
+                OR vc.`number` LIKE '%${search}%' AND vc.`group_id` = #{groupId}
+                OR vc.`phone` LIKE '%${search}%' AND vc.`group_id` = #{groupId}
+                OR vc.`message` LIKE '%${search}%' AND vc.`group_id` = #{groupId}
+                OR vc.`user_name` LIKE '%${search}%' AND vc.`group_id` = #{groupId}
+                OR vc.`organization_name` LIKE '%${search}%' AND vc.`group_id` = #{groupId}
+                OR vc.`apply_money` LIKE '%${search}%' AND vc.`group_id` = #{groupId}
+                OR vc.`borrow_money` LIKE '%${search}%' AND vc.`group_id` = #{groupId}
+                OR vc.`id` LIKE '%${search}%' AND vc.`group_id` = #{groupId}
+            </if>
+        </if>
+        <if test="search==null">
+            <if test="startTime!=null">
+                WHERE  vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}  AND vc.`group_id` = #{groupId}
+            </if>
+        </if>
+        <if test="search!=null">
+            <if test="endTime!=null">
+                WHERE vc.`name` LIKE '%${search}%'  AND vc.`group_id` = #{groupId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`number` LIKE '%${search}%'  AND vc.`group_id` = #{groupId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`phone` LIKE '%${search}%'  AND vc.`group_id` = #{groupId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`message` LIKE '%${search}%'  AND vc.`group_id` = #{groupId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`user_name` LIKE '%${search}%'  AND vc.`group_id` = #{groupId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`organization_name` LIKE '%${search}%' AND vc.`group_id` = #{groupId}  AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`apply_money` LIKE '%${search}%'  AND vc.`group_id` = #{groupId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`borrow_money` LIKE '%${search}%' AND vc.`group_id` = #{groupId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`id` LIKE '%${search}%' AND vc.`group_id` = #{groupId}  AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            </if>
+        </if>
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <select id="selectCustomerDepartmentId" resultMap="CustomersResultMap">
+        SELECT * FROM v_customer AS vc
+        <if test="search==null">
+            <if test="startTime==null">
+                WHERE vc.`department_id` = #{departmentId}
+            </if>
+        </if>
+        <if test="search!=null">
+            <if test="startTime==null">
+                WHERE vc.`name` LIKE '%${search}%' AND vc.`department_id` = #{departmentId}
+                OR vc.`number` LIKE '%${search}%' AND vc.`department_id` = #{departmentId}
+                OR vc.`phone` LIKE '%${search}%' AND vc.`department_id` = #{departmentId}
+                OR vc.`message` LIKE '%${search}%' AND vc.`department_id` = #{departmentId}
+                OR vc.`user_name` LIKE '%${search}%' AND vc.`department_id` = #{departmentId}
+                OR vc.`organization_name` LIKE '%${search}%' AND vc.`department_id` = #{departmentId}
+                OR vc.`apply_money` LIKE '%${search}%' AND vc.`department_id` = #{departmentId}
+                OR vc.`borrow_money` LIKE '%${search}%' AND vc.`department_id` = #{departmentId}
+                OR vc.`id` LIKE '%${search}%' AND vc.`department_id` = #{departmentId}
+            </if>
+        </if>
+        <if test="search==null">
+            <if test="startTime!=null">
+                WHERE  vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}  AND vc.`department_id` = #{departmentId}
+            </if>
+        </if>
+        <if test="search!=null">
+            <if test="endTime!=null">
+                WHERE vc.`name` LIKE '%${search}%'  AND vc.`department_id` = #{departmentId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`number` LIKE '%${search}%'  AND vc.`department_id` = #{departmentId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`phone` LIKE '%${search}%'  AND vc.`department_id` = #{departmentId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`message` LIKE '%${search}%'  AND vc.`department_id` = #{departmentId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`user_name` LIKE '%${search}%'  AND vc.`department_id` = #{departmentId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`organization_name` LIKE '%${search}%' AND vc.`department_id` = #{departmentId}  AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`apply_money` LIKE '%${search}%'  AND vc.`department_id` = #{departmentId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`borrow_money` LIKE '%${search}%' AND vc.`department_id` = #{departmentId} AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vc.`id` LIKE '%${search}%' AND vc.`department_id` = #{departmentId}  AND vc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            </if>
+        </if>
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <select id="selectWhereId" resultMap="WhereIdResultMap">
+        SELECT customers.phone,process.id,process.message FROM customers
+        LEFT JOIN `process` ON customers.`process_id`=process.`id`
+        WHERE customers.id = #{id};
+    </select>
+
+    <select id="count" resultType="String">
+        SELECT COUNT(*) FROM customers
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+
+    <select id="selectPersonalCustomers" resultMap="CustomersResultMap">
+        SELECT *  FROM v_personal_customers AS vpc
+        <if test="search!=null">
+            <if test="endTime==null">
+                WHERE vpc.`name` LIKE '%${search}%'
+                OR vpc.`id` LIKE '%${search}%'
+                OR vpc.`phone` LIKE '%${search}%'
+                OR vpc.`number` LIKE '%${search}%'
+                OR vpc.`message` LIKE '%${search}%'
+                OR vpc.`user_name` LIKE '%${search}%'
+                OR vpc.`organization_name` LIKE '%${search}%'
+                OR vpc.`apply_money` LIKE '%${search}%'
+                OR vpc.`borrow_money` LIKE '%${search}%'
+            </if>
+        </if>
+        <if test="search==null">
+            <if test="endTime!=null">
+                WHERE  vpc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            </if>
+        </if>
+        <if test="search!=null">
+            <if test="endTime!=null">
+                WHERE vpc.`name` LIKE '%${search}%' AND vpc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vpc.`id` LIKE '%${search}%' AND vpc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vpc.`phone` LIKE '%${search}%' AND vpc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vpc.`number` LIKE '%${search}%' AND vpc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vpc.`message` LIKE '%${search}%' AND vpc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vpc.`user_name` LIKE '%${search}%' AND vpc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vpc.`organization_name` LIKE '%${search}%' AND vpc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vpc.`apply_money` LIKE '%${search}%' AND vpc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+                OR vpc.`borrow_money` LIKE '%${search}%' AND vpc.`submit_datetime` BETWEEN #{startTime} and #{endTime}
+            </if>
+        </if>
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <select id="countPersonal" resultType="String">
+        SELECT COUNT(*)  FROM v_personal_customers;
+    </select>
+
+    <insert id="insertCustomers" parameterType="Customers">
+        INSERT INTO customers(name,number,phone,organize_id,apply_money,process_id,borrow_money,user_id,submit_datetime)
+        VALUES(#{name},#{number},#{phone},#{organizeId},#{applyMoney},#{processId},#{borrowMoney},#{userId},current_timestamp());
+    </insert>
+
+    <update id="updateCustomers" parameterType="Customers">
+        UPDATE customers
+        SET id = #{id}
+        <if test="name!=null">
+            ,name= #{name}
+        </if>
+        <if test="number!=null">
+            ,number = #{number}
+        </if>
+        <if test="phone!=null">
+            ,phone = #{phone}
+        </if>
+        <if test="organizeId!=null">
+            ,organize_id = #{organizeId}
+        </if>
+        <if test="applyMoney!=null">
+            ,apply_money = #{applyMoney}
+        </if>
+        <if test="processId!=null">
+            ,process_id = #{processId}
+        </if>
+        <if test="borrowMoney!=null">
+            ,borrow_money = #{borrowMoney}
+        </if>
+        <if test="userId!=null">
+            ,user_id = #{userId}
+        </if>
+        <if test="submitDatetime!=null">
+            ,submit_datetime=current_timestamp()
+        </if>
+
+        WHERE id = #{id};
+    </update>
+
+    <delete id="deleteCustomers">
+        DELETE FROM customers
+        WHERE id = #{id};
+    </delete>
+
+
+</mapper>

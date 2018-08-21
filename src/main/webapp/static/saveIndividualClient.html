@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>编辑申请</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+  <meta content="Coderthemes" name="author" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+  <!-- App css -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+
+  <script src="assets/js/modernizr.min.js"></script>
+
+</head>
+
+<body>
+
+  <!-- Navigation Bar-->
+  <include src="header.html"></include>
+  <!-- End Navigation Bar-->
+
+
+  <div class="wrapper">
+    <div class="container-fluid">
+
+      <!-- Page-Title -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="page-title-box">
+            <div class="btn-group pull-right">
+              <ol class="breadcrumb hide-phone p-0 m-0">
+                <li class="breadcrumb-item">
+                  <a href="#">首页</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="individualClient.html">申请</a>
+                </li>
+                <li class="breadcrumb-item active">编辑申请</li>
+              </ol>
+            </div>
+            <h4 class="page-title">编辑申请</h4>
+          </div>
+        </div>
+      </div>
+      <!-- end page title end breadcrumb -->
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card-box">
+            <p class="text-muted m-b-30 font-14"></p>
+            <div class="row">
+              <div class="col-12">
+                <div class="p-20">
+                  <form class="form-horizontal" role="form">
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">借款人</label>
+                      <div class="col-10">
+                        <input type="text" id='name' class="form-control" value="" placeholder='请输入借款人姓名...'>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">借款人身份证号</label>
+                      <div class="col-10">
+                        <input type="number" id='number' class="form-control" value="" placeholder='请输入借款人身份证号...'>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">借款人手机</label>
+                      <div class="col-10">
+                        <input type="number" id='phone' class="form-control" value="" placeholder='请输入借款人手机...'>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">申请借款</label>
+                      <div class="col-10">
+                        <input type="number" id='apply_money' class="form-control" value="" placeholder='请输入申请借款金额...'>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">实际借款</label>
+                      <div class="col-10">
+                        <input type="number" id='borrow_money' class="form-control" value="" placeholder='请输入实际借款金额...'>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">放款机构</label>
+                      <div class="col-10">
+                        <select class="form-control" id='organize_id'>
+                          <script id='organize' type='text/html'>
+                            <option>请选择放款机构</option>
+                            {{each organize as item}}
+                              <option value='{{item.id}}'>{{item.name}}</option>
+                            {{/each}}
+                          </script>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">当前放款进度</label>
+                      <div class="col-10">
+                        <select class="form-control" id='process_id'>
+                          <script id='process' type='text/html'>
+                            <option>请选择当前放款进度</option>
+                            {{each process as item}}
+                              <option value='{{item.id}}'>{{item.message}}</option>
+                            {{/each}}
+                          </script>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">推荐人工号</label>
+                      <div class="col-10">
+                        <input type="number" id='user_id' class="form-control" value="" placeholder='请输入推荐人工号...'>
+                      </div>
+                    </div>
+                    <div class='form-group row'>
+                      <label class="col-2 col-form-label"></label>
+                      <a href="javascript:;" class='btn btn-info waves-light waves-effect save' onclick="save()">保存</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- end card-box -->
+        </div>
+        <!-- end col -->
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </div>
+  <!-- end wrapper -->
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          2018 © Highdmin. - Coderthemes.com
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+
+  <!-- jQuery  -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/waves.js"></script>
+  <script src="assets/js/jquery.slimscroll.js"></script>
+
+  <!-- App js -->
+  <script src="assets/js/jquery.core.js"></script>
+  <script src="assets/js/jquery.app.js"></script>
+  <script src="js/common_js.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    var id = getUrlParam('id');
+    var url = 'customers/insert.do';
+    var data = {};
+    var htmlData = {};
+    //获取放款机构
+    get('organization/select.do', {}, function(res){
+      htmlData.organize =JSON.parse(res);
+      var html = template('organize', htmlData);
+      $('#organize_id').html(html);
+    });
+    //获取放款进度
+    get('process/select.do', {}, function(res){
+      htmlData.process =JSON.parse(res);
+      var html = template('process', htmlData);
+      $('#process_id').html(html);
+    });
+    if (id) {
+      url = 'customers/update.do';
+      get('customers/select.do', {id: id}, function(res){
+        if(res){
+          var res = JSON.parse(res).row[0];
+          data.name = res.name;
+          data.number = res.number;
+          data.phone = res.phone;
+          data.applyMoney = res.applyMoney;
+          data.borrowMoney = res.borrowMoney;
+          data.organizeId = res.organization.id;
+          data.processId = res.process.id;
+          data.userId = res.users.id;
+          $('#name').val(data.name);
+          $('#number').val(data.number);
+          $('#phone').val(data.phone);
+          $('#apply_money').val(data.applyMoney);
+          $('#borrow_money').val(data.borrowMoney);
+          $('#organize_id').val(data.organizeId);
+          $('#process_id').val(data.processId);
+          if(data.userId == 0)
+            $('#user_id').val('');
+          else
+            $('#user_id').val(data.userId);
+        }else{
+          layer.msg('系统错误，请刷新重试');
+        }
+      })
+    } else {
+      id = '';
+    };
+    data.id = id;
+    function save() {
+      var name = $('#name').val(),
+      number = $('#number').val(),
+      phone = $('#phone').val(),
+      applyMoney = $('#apply_money').val(),
+      borrowMoney = $('#borrow_money').val();
+      organizeId = $('#organize_id').val();
+      processId = $('#process_id').val();
+      userId = $('#user_id').val();
+      data.name = delHtmlTag(name);
+      data.number = delHtmlTag(number);
+      data.phone = delHtmlTag(phone);
+      data.applyMoney = delHtmlTag(applyMoney);
+      data.borrowMoney = delHtmlTag(borrowMoney);
+      data.organizeId = delHtmlTag(organizeId);
+      data.processId = delHtmlTag(processId);
+      data.userId = delHtmlTag(userId);
+      if(!name) return
+      if(!number) 
+        return
+      else
+        if(isCardNo(number)) return
+      if(!phone)
+        return
+      else
+        if(phoneTest(phone)) return
+      if(!applyMoney) return
+      if(!borrowMoney){
+        return
+      }else{
+        if(borrowMoney - 0 > applyMoney - 0){
+          layer.msg('实际借款不能超过申请借款');
+          return
+        };
+      };
+      if(!organizeId) returns
+      if(!processId) return
+      if(!userId) data.userId = 0;  
+      post(url, data, function (res) {
+        if (res == 'success') {
+          layer.msg('保存成功，马上跳转');
+          setTimeout(function () {
+            window.location.href = 'individualClient.html'
+          }, 1000);
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>

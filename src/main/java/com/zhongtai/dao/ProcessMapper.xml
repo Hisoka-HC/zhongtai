@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhongtai.dao.ProcessMapper">
+    <select id="selectProcess" resultType="Process">
+        SELECT * FROM process
+        <if test="id!=null">
+            WHERE id = #{id}
+        </if>
+        ORDER BY id DESC
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <insert id="insertProcess" parameterType="Process">
+        INSERT INTO process(message)
+        VALUES(#{message})
+    </insert>
+
+    <select id="count" resultType="String">
+        SELECT COUNT(*) FROM `process`;
+    </select>
+
+    <update id="updateProcess" parameterType="Process">
+        UPDATE process
+        SET message = #{message}
+        WHERE id = #{id};
+    </update>
+
+    <delete id="deleteProcess">
+        DELETE FROM process
+        WHERE id = #{id};
+    </delete>
+</mapper>

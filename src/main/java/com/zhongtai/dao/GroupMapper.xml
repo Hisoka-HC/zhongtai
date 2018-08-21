@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhongtai.dao.GroupMapper">
+    <select id="selectGroup" resultType="Groups">
+        SELECT * FROM xiaozu
+        <if test="departmentId!=null">
+            LEFT JOIN department_xiaozu dx ON xiaozu.`id`=dx.`xiaozu_id`
+            LEFT JOIN department ON dx.`department_id`=department.`id`
+            WHERE dx.`department_id`=#{departmentId}
+            <if test="id!=null">
+                AND xiaozu.id = #{id}
+            </if>
+        </if>;
+    </select>
+
+    <select id="selectGroupByName" resultType="Groups">
+        SELECT * FROM xiaozu
+        WHERE xiaozu.name = #{name};
+    </select>
+
+    <insert id="insertGroup" parameterType="Groups">
+        INSERT INTO xiaozu(name)
+        VALUES(#{name});
+    </insert>
+
+    <update id="updateGroup" parameterType="Groups">
+        UPDATE xiaozu
+        SET name = #{name}
+        WHERE id = #{id};
+    </update>
+
+    <insert id="insertDepartmentGroup">
+        INSERT INTO department_xiaozu(department_id,xiaozu_id)
+        VALUES(#{departmentId},#{groupId});
+    </insert>
+
+</mapper>

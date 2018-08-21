@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>中泰和润有限公司后台管理</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+        <!-- App css -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+
+        <script src="assets/js/modernizr.min.js"></script>
+
+    </head>
+
+    <body>
+
+        <!-- Begin page -->
+        <div class="accountbg" style="background: url('assets/images/bg-1.jpg');background-size: cover;"></div>
+
+        <div class="wrapper-page account-page-full">
+
+            <div class="card">
+                <div class="card-block">
+
+                    <div class="account-box">
+
+                        <div class="card-box p-5">
+                            <h2 class="text-uppercase text-center pb-4">
+                                <a href="index.html" class="text-success">
+                                    <span><img src="assets/images/logo.png" alt="" height="26"></span>
+                                </a>
+                            </h2>
+                            <form class="" action="#">
+                                <!-- <div class="form-group m-b-20 row">
+                                    <div class="col-12">
+                                        <label for="username">旧密码：</label>
+                                        <input class="form-control password" type="password" id="password" required="" placeholder="请输入旧密码...">
+                                    </div>
+                                </div> -->
+                                <div class="form-group row m-b-20">
+                                    <div class="col-12">
+                                        <a href="page-recoverpw.html" class="text-muted pull-right"></a>
+                                        <label for="password">新密码：</label>
+                                        <input class="form-control passwrod" type="password" required="" id="password1" placeholder="请输入6位-16位新密码...">
+                                    </div>
+                                </div>
+                                <div class="form-group row m-b-20">
+                                    <div class="col-12">
+                                        <a href="page-recoverpw.html" class="text-muted pull-right"></a>
+                                        <label for="password">再次输入新密码：</label>
+                                        <input class="form-control passwrod" type="password" required="" id="password2" placeholder="请输入再次输入6位-16位新密码...">
+                                    </div>
+                                </div>
+                                <div class="form-group row text-center m-t-10">
+                                    <div class="col-12">
+                                        <a href='javascript:;' class="btn btn-block btn-custom waves-effect waves-light login"  onclick="save()">确认修改</a>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="row m-t-50">
+                                <div class="col-sm-12 text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="m-t-40 text-center">
+                <p class="account-copyright">2018 © Highdmin. - Coderthemes.com</p>
+            </div>
+
+        </div>
+
+
+        <!-- jQuery  -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/waves.js"></script>
+        <script src="assets/js/jquery.slimscroll.js"></script>
+
+        <!-- App js -->
+        <script src="assets/js/jquery.core.js"></script>
+        <script src="assets/js/jquery.app.js"></script>
+        <script src="js/common_js.js"></script>
+        <script src="js/common.js"></script>
+        <script>
+          var data = {
+            id: getuser().id
+          };
+          $('.passwrod').blur(function(){
+            var val = $(this).val();
+            if(val.length > 16){
+              layer.msg('密码长度不能超过16位数');
+              $(this).val('');
+            }else if(val.length < 6){
+              layer.msg('密码长度不能低于6位数');
+              $(this).val('');
+            };
+          });
+          function save(){
+            var password1 = $('#password1').val();
+            var password2 = $('#password2').val();
+            if(!password1) return
+            if(!password2) return
+            if(password1 != password2){
+              layer.msg('两次输入的密码不一致，请重新输入');
+              return 
+            };
+            data.password = password1;
+            post('users/update.do', data, function(res){
+              if(res == 'success'){
+                layer.msg('修改成功');
+                setTimeout(()=>{
+                  history.back(-1);
+                },500);
+              }
+            })
+          }
+        </script>
+    </body>
+</html>

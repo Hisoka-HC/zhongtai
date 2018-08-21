@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>编辑员工</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+  <meta content="Coderthemes" name="author" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+  <!-- App css -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+
+  <script src="assets/js/modernizr.min.js"></script>
+
+</head>
+
+<body>
+
+  <!-- Navigation Bar-->
+  <include src="header.html"></include>
+  <!-- End Navigation Bar-->
+
+
+  <div class="wrapper">
+    <div class="container-fluid">
+
+      <!-- Page-Title -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="page-title-box">
+            <div class="btn-group pull-right">
+              <ol class="breadcrumb hide-phone p-0 m-0">
+                <li class="breadcrumb-item">
+                  <a href="#">首页</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="staff.html">员工</a>
+                </li>
+                <li class="breadcrumb-item active">编辑员工</li>
+              </ol>
+            </div>
+            <h4 class="page-title">编辑员工</h4>
+          </div>
+        </div>
+      </div>
+      <!-- end page title end breadcrumb -->
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card-box">
+            <h4 class="m-t-0 header-title">编辑员工信息</h4>
+            <p class="text-muted m-b-30 font-14"></p>
+            <div class="row">
+              <div class="col-12">
+                <div class="p-20">
+                  <form class="form-horizontal" role="form">
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">员工姓名</label>
+                      <div class="col-10">
+                        <input type="text" id='name' class="form-control" value="" placeholder='请输入员工姓名...'>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">员工用户名</label>
+                      <div class="col-10">
+                        <input type="text" id='username' class="form-control username" value="" placeholder='请输入员工用户名...'>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">密码</label>
+                      <div class="col-10">
+                        <input type="password" id='password' class="form-control password" value="" placeholder='请输入密码...'>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">员工手机</label>
+                      <div class="col-10">
+                        <input type="number" required id='phone' class="form-control" value="" placeholder='请输入员工手机...'>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">员工性别</label>
+                      <div class="col-10">
+                        <select class="form-control" id='sex'>
+                          <option>请选择员工性别</option>
+                          <option value='男'>男</option>
+                          <option value='女'>女</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">员工所属部门</label>
+                      <div class="col-10">
+                        <select class="form-control" id='departmentId'>
+                          <script id='department' type='text/html'>
+                            <option>请选择员工所属部门</option>
+                            {{each list as i}}
+                              <option value='{{i.id}}'>{{i.name}}</option>
+                            {{/each}}
+                          </script>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row hide">
+                      <label class="col-2 col-form-label">员工所属小组</label>
+                      <div class="col-10">
+                        <select class="form-control" id='groupId'>
+                          <script id='group' type='text/html'>
+                            <option>请选择员工所属小组</option>
+                            {{each list as i}}
+                              <option value='{{i.id}}'>{{i.name}}</option>
+                            {{/each}}
+                          </script>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label">员工角色</label>
+                      <div class="col-10">
+                        <select class="form-control" id='roleId'>
+                          <script id='roleData' type='text/html'>
+                            <option>请选择员工角色</option>
+                            {{each list as i}}
+                              <option value='{{i.id}}'>{{i.name}}</option>
+                            {{/each}}
+                          </script>
+                        </select>
+                      </div>
+                    </div>
+                    <div class='form-group row'>
+                      <label class="col-2 col-form-label"></label>
+                      <a href="javascript:;" class='btn btn-info waves-light waves-effect save' onclick="save()">保存</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- end card-box -->
+        </div>
+        <!-- end col -->
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </div>
+  <!-- end wrapper -->
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          2018 © Highdmin. - Coderthemes.com
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+
+  <!-- jQuery  -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/waves.js"></script>
+  <script src="assets/js/jquery.slimscroll.js"></script>
+
+  <!-- App js -->
+  <script src="assets/js/jquery.core.js"></script>
+  <script src="assets/js/jquery.app.js"></script>
+  <script src="js/common_js.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    var id = getUrlParam('id');
+    var url = 'users/insert.do';
+    var data = {};
+    get('department/select.do', {},function(res){
+      var htmlData = {
+        list: JSON.parse(res)
+      };
+      var html = template('department', htmlData);
+      $('#departmentId').html(html);
+    });
+    $('#departmentId').change(function(){
+      var group = $(this).val();
+      get('group/select.do', {departmentId:group},function(res){
+        $('.hide').removeClass('hide');
+        var htmlData = {
+          list: JSON.parse(res)
+        };
+        var html = template('group', htmlData);
+        $('#groupId').html(html);
+      });
+    })
+
+    get('role/select.do', {},function(res){
+      var htmlData = {
+        list: JSON.parse(res)
+      };
+      var html = template('roleData', htmlData);
+      $('#roleId').html(html);
+    });
+    
+    if (id) {
+      url = 'users/update.do';
+      get('users/select.do', {id: id}, function(res){
+        if(res){
+          var res = JSON.parse(res).row[0];
+          data.id = res.id;
+          data.name = res.name;
+          data.username = res.username;
+          data.password = res.password;
+          data.phone = res.phone;
+          data.sex = res.sex;
+          data.departmentId = res.department.id;
+          data.groupId = res.group.id;
+          get('group/select.do', {departmentId: data.departmentId},function(res){
+            $('.hide').removeClass('hide');
+            var htmlData = {
+              list: JSON.parse(res)
+            };
+            var html = template('group', htmlData);
+            $('#groupId').html(html);
+            $('#groupId').val(JSON.parse(res)[0].id);
+          });
+          data.roleId = res.role.id;
+          $('#name').val(data.name);
+          $('#username').val(data.username);
+          $('#password').val(data.password);
+          $('#phone').val(data.phone);
+          $('#sex').val(data.sex);
+          $('#departmentId').val(data.departmentId);
+          $('#roleId').val(data.roleId);
+        }else{
+          layer.msg('系统错误，请刷新重试');
+        }
+      })
+    } else {
+      id = '';
+      data.id = id;
+    };
+    function save() {
+      var name = $('#name').val(),
+        username = $('#username').val(),
+        password = $('#password').val(),
+        phone = $('#phone').val(),
+        sex = $('#sex').val(),
+        departmentId = $('#departmentId').val(),
+        groupId = $('#groupId').val(),
+        roleId = $('#roleId').val();
+      data.name = delHtmlTag(name);
+      data.username = delHtmlTag(username);
+      data.password = delHtmlTag(password);
+      data.phone = delHtmlTag(phone);
+      data.sex = delHtmlTag(sex);
+      data.departmentId = delHtmlTag(departmentId);
+      data.groupId = delHtmlTag(groupId);
+      data.roleId = delHtmlTag(roleId);
+      if (name) {
+        if (phone) {
+          if(phoneTest(phone)) return
+          if (username) {
+            if (password) {
+              if (sex) {
+                if(!departmentId) return
+                if(!groupId) return
+                if(groupId.length > 1){
+                  layer.msg('请选择该员工所在小组');
+                  return;
+                };
+                if(!roleId) return
+                post(url, data, function (res) {
+                  if (res == 'success') {
+                    layer.msg('保存成功，马上跳转');
+                    setTimeout(function () {
+                      window.location.href = 'staff.html'
+                    }, 1000);
+                  }
+                })
+              }
+            }
+          }
+        }
+      }else{
+        
+      }
+    }
+  </script>
+</body>
+
+</html>

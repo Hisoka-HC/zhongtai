@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhongtai.dao.ApplyMapper">
+    <select id="selectApply" resultType="Apply">
+        SELECT * FROM apply
+        <if test="id!=null">
+            WHERE id = #{id}
+        </if>
+        <if test="search!=null">
+            <if test="endTime==null">
+                WHERE apply.`id`  LIKE '%${search}%'
+                OR apply.`name` LIKE '%${search}%'
+                OR apply.`phone` LIKE '%${search}%'
+                OR apply.`money` LIKE '%${search}%'
+            </if>
+        </if>
+        <if test="search==null">
+            <if test="endTime!=null">
+                WHERE  apply.`apply_datetime` BETWEEN #{startTime} and #{endTime}
+            </if>
+        </if>
+
+        <if test="search!=null">
+            <if test="endTime!=null">
+                WHERE apply.`id`  LIKE '%${search}%' AND apply.`apply_datetime` BETWEEN #{startTime} and #{endTime}
+                OR apply.`name` LIKE '%${search}%' AND apply.`apply_datetime` BETWEEN #{startTime} and #{endTime}
+                OR apply.`phone` LIKE '%${search}%' AND apply.`apply_datetime` BETWEEN #{startTime} and #{endTime}
+                OR apply.`money` LIKE '%${search}%' AND apply.`apply_datetime` BETWEEN #{startTime} and #{endTime}
+            </if>
+        </if>
+        ORDER BY id DESC
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <select id="count" resultType="String">
+        SELECT COUNT(*) FROM apply;
+    </select>
+
+    <insert id="insertApply" parameterType="Apply">
+        INSERT INTO apply(name,phone,money,apply_datetime)
+        VALUES(#{name},#{phone},#{money},current_timestamp())
+    </insert>
+
+    <update id="updateApply" parameterType="Apply">
+        UPDATE apply
+        SET id = #{id}
+        <if test="name!=null">
+            ,name = #{name}
+        </if>
+        <if test="phone!=null">
+            ,phone = #{phone}
+        </if>
+        <if test="money!=null">
+            ,money = #{money}
+        </if>
+        <if test="datetime!=null">
+            ,apply_datetime = #{datetime}
+        </if>
+        WHERE id = #{id};
+
+    </update>
+
+    <delete id="deleteApply" >
+        DELETE FROM apply
+        WHERE id = #{id};
+    </delete>
+</mapper>

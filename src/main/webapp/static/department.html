@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>员工</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+  <meta content="Coderthemes" name="author" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+  <!-- App css -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+
+  <script src="assets/js/modernizr.min.js"></script>
+  <style>
+  </style>
+</head>
+
+<body>
+  <include src="header.html"></include>
+  
+  <div class="wrapper">
+    <div class="container-fluid">
+
+      <!-- Page-Title -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="page-title-box">
+            <div class="btn-group pull-right">
+              <ol class="breadcrumb hide-phone p-0 m-0">
+                <li class="breadcrumb-item">
+                  <a href="index.html">首页</a>
+                </li>
+                <li class="breadcrumb-item active">
+                  <a href="#">部门</a>
+                </li>
+              </ol>
+            </div>
+            <h4 class="page-title">部门列表</h4>
+          </div>
+        </div>
+      </div>
+      <!-- end page title end breadcrumb -->
+
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card-box">
+            <div class='row flex col-lg-12' style='margin-bottom: 20px;' id='box'>
+              <form class='form-inline' action="#">
+                <!-- <label for="" class='col-12 col-form-label'>
+                  <input type="text" id='search_text' class='form-control search' placeholder="查询">
+                  <a href="javascript:;" class='btn btn-custom waves-light waves-effect demand'>查询</a>
+                </label> -->
+              </form>
+              <a href="saveDepartment.html" id='add' class='btn btn-custom waves-light waves-effect'>添加部门</a>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>小组名称</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class='proposer'>
+                <script id='proposer' type='text/html'>
+                  {{each list as item}}
+                  <tr>
+                    <th scope="row">{{item.id}}</th>
+                    <td>{{item.name}}</td>
+                    <td>
+                      <a href="saveDepartment.html?id={{item.id}}" id='amend' class='btn btn-info waves-light waves-effect'>修改</a>
+                      <a href="group.html?id={{item.id}}" id='amend' class='btn btn-primary waves-light waves-effect'>查看小组</a>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </script>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!--- end row -->
+    </div>
+    <!-- end container -->
+  </div>
+  <!-- end wrapper -->
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          2018 © Highdmin. - Coderthemes.com
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+  <!-- jQuery  -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/waves.js"></script>
+  <script src="assets/js/jquery.slimscroll.js"></script>
+
+  <!-- App js -->
+  <script src="assets/js/jquery.core.js"></script>
+  <script src="assets/js/jquery.app.js"></script>
+  <script src="js/common_js.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    var data = {
+    };
+    var role = role(), htmlData = {};
+    var user = getuser();
+    htmlData.role = role;
+    //获取列表
+    data.role = role;
+    data.roleId = user.roleId;
+    get('department/select.do', data, function (res) {
+      var res = JSON.parse(res)
+      console.log(res);
+      htmlData.list = res;
+      var html = template('proposer', htmlData);
+      $('.proposer').html(html);
+    });
+  </script>
+</body>
+
+</html>

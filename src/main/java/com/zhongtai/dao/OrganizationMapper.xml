@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhongtai.dao.OrganizationMapper">
+    <select id="selectOrganization" resultType="Organization">
+        SELECT * FROM organization
+        <if test="id!=null">
+            WHERE id = #{id}
+        </if>
+        ORDER BY id DESC
+        <if test="limit!=null">
+            limit ${offset},${limit}
+        </if>;
+    </select>
+
+    <select id="count" resultType="String">
+        SELECT COUNT(*) FROM organization;
+    </select>
+
+    <insert id="insertOrganization" parameterType="Organization">
+        INSERT INTO organization(name,ratio)
+        VALUES(#{name},#{ratio})
+    </insert>
+
+    <update id="updateOrganization" parameterType="Organization">
+        UPDATE organization
+        SET id =#{id}
+        <if test="name!=null">
+            ,name = #{name}
+        </if>
+        <if test="ratio!=null">
+            ,ratio = #{ratio}
+        </if>
+        WHERE id =#{id};
+    </update>
+
+    <delete id="deleteOrganization">
+        DELETE FROM organization
+        WHERE id =#{id};
+    </delete>
+</mapper>
